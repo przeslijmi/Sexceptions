@@ -22,10 +22,8 @@ use Exception;
  * try {
  *     // some code
  * } catch (\Przeslijmi\Sexceptions\Sexception $e) {
- *     \Przeslijmi\Sexceptions\Handler::handle($e);
+ *     \Przeslijmi\Sexceptions\self::handle($e);
  * }
- *
- * @version v1.0
  */
 class Handler
 {
@@ -43,7 +41,7 @@ class Handler
     {
 
         if (is_a($e, 'Przeslijmi\Sexceptions\Sexception') === true) {
-            Handler::handleSexception($e);
+            self::handleSexception($e);
         } else {
             die('unknown to handle');
         }
@@ -60,38 +58,40 @@ class Handler
     private static function handleSexception(Sexception $e) : void
     {
 
-        // lvd
+        // Lvd.
         $response = '';
 
         if (CALL_TYPE === 'client') {
 
-            // get response
-            $response .= Handler::echoSexception($e);
-            $json = json_encode([
-                'errorReport' => explode(PHP_EOL, $response),
-            ]);
+            // Get response.
+            $response .= self::echoSexception($e);
+            $json      = json_encode(
+                [
+                    'errorReport' => explode(PHP_EOL, $response),
+                ]
+            );
 
-            // set headers
+            // Set headers.
             http_response_code(500);
-            header("Content-type: application/json; charset=utf-8");
+            header('Content-type: application/json; charset=utf-8');
 
-            // call echo
+            // Call echo.
             echo $json;
 
         } else {
 
-            // get response
+            // Get response.
             $response .= PHP_EOL . PHP_EOL;
             $response .= str_pad('', 90, '=');
             $response .= PHP_EOL;
-            $response .= Handler::echoSexception($e);
+            $response .= self::echoSexception($e);
             $response .= str_pad('', 90, '=');
             $response .= PHP_EOL . PHP_EOL;
 
             echo $response;
-        }
+        }//end if
 
-        // end of service
+        // End of service.
         die;
     }
 
@@ -99,43 +99,44 @@ class Handler
      * Show information about exception to the screen.
      *
      * @param Sexception $e           Exception to be showed.
-     * @param bool       $deeperCause (opt., false) If set to true - it means that this Exception is a cause to a previous one.
+     * @param boolean    $deeperCause Opt., false. If set to true - it means that this Exception is a cause
+     *                                to a previous one.
      *
-     * @return void
+     * @return string
      * @since  v1.0
      */
-    private static function echoSexception(Sexception $e, bool $deeperCause=false) : string
+    private static function echoSexception(Sexception $e, bool $deeperCause = false) : string
     {
 
-        // show code name, file and line
-        $response = $e->getCodeName();
-        $response .= ' [on ' . substr($e->getFile(), (strlen(ROOT_PATH) + 1));
+        // Show code name, file and line.
+        $response  = $e->getCodeName();
+        $response .= ' [on ' . substr($e->getFile(), ( strlen(ROOT_PATH) + 1 ));
         $response .= ' #' . $e->getLine() . ']' . PHP_EOL;
 
-        // show all infos
+        // Show all infos.
         foreach ($e->getInfos() as $key => $value) {
             $response .= '    ' . $key . ': ' . $value . PHP_EOL;
         }
 
-        // if this is NOT a deeper cause - show trace also
+        // If this is NOT a deeper cause - show trace also.
         if ($deeperCause === false) {
 
-            // lvd
+            // Lvd.
             $trace = $e->getTrace()[0];
 
             if (empty($trace['file']) === false) {
                 $response .= '    called:';
-                $response .= ' [on ' . substr($trace['file'], (strlen(ROOT_PATH) + 1));
+                $response .= ' [on ' . substr($trace['file'], ( strlen(ROOT_PATH) + 1 ));
                 $response .= ' #' . $trace['line'];
                 $response .= ' by ' . $trace['class'] . '::' . $trace['function'];
                 $response .= ']' . PHP_EOL;
             }
         }
 
-        // it there is a deeper cause - call to show it also (recursively)
+        // It there is a deeper cause - call to show it also (recursively).
         if (is_a($e->getPrevious(), 'Przeslijmi\Sexceptions\Sexception') === true) {
             $response .= 'caused by ';
-            $response .= Handler::echoSexception($e->getPrevious(), true);
+            $response .= self::echoSexception($e->getPrevious(), true);
         }
 
         return $response;

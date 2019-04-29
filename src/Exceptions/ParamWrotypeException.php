@@ -21,7 +21,7 @@ class ParamWrotypeException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $paramName, string $typeExpected, string $actualType, ?Exception $cause=null)
+    public function __construct(string $paramName, string $typeExpected, string $actualType, ?Exception $cause = null)
     {
 
         $this->setCodeName('ParamWrotypeException');

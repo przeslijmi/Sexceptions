@@ -21,7 +21,7 @@ class KeyDonoexException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $context, array $range, string $actualKey, ?Exception $cause=null)
+    public function __construct(string $context, array $range, string $actualKey, ?Exception $cause = null)
     {
 
         $this->setCodeName('KeyDonoexException');

@@ -20,7 +20,7 @@ class KeyAlrexException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $context, string $actualKey, ?Exception $cause=null)
+    public function __construct(string $context, string $actualKey, ?Exception $cause = null)
     {
 
         $this->setCodeName('KeyDonoexException');

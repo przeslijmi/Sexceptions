@@ -19,7 +19,7 @@ class FopException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $context, ?Exception $cause=null)
+    public function __construct(string $context, ?Exception $cause = null)
     {
 
         $this->setCodeName('FopException');

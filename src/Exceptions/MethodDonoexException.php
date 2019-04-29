@@ -21,7 +21,7 @@ class MethodDonoexException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $context, string $className, string $methodName, ?Exception $cause=null)
+    public function __construct(string $context, string $className, string $methodName, ?Exception $cause = null)
     {
 
         $this->setCodeName('MethodDonoexException');

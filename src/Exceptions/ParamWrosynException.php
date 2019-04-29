@@ -20,7 +20,7 @@ class ParamWrosynException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $paramName, string $actualValue, ?Exception $cause=null)
+    public function __construct(string $paramName, string $actualValue, ?Exception $cause = null)
     {
 
         $this->setCodeName('ParamWrosynException');

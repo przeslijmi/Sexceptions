@@ -21,7 +21,7 @@ class ParamOtosetException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $paramName, array $range, string $actualValue, ?Exception $cause=null)
+    public function __construct(string $paramName, array $range, string $actualValue, ?Exception $cause = null)
     {
 
         $this->setCodeName('ParamOtosetException');

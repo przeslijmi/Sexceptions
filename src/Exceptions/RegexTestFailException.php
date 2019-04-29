@@ -20,7 +20,7 @@ class RegexTestFailException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $value, string $regex, ?Exception $cause=null)
+    public function __construct(string $value, string $regex, ?Exception $cause = null)
     {
 
         $this->setCodeName('RegexTestFailException');

@@ -20,7 +20,7 @@ class FileDonoexException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $context, string $fileName, ?Exception $cause=null)
+    public function __construct(string $context, string $fileName, ?Exception $cause = null)
     {
 
         $this->setCodeName('FileDonoexException');

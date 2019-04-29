@@ -21,8 +21,12 @@ class ClassWrotypeException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $context, string $className, string $parentClassNameExpected, ?Exception $cause=null)
-    {
+    public function __construct(
+        string $context,
+        string $className,
+        string $parentClassNameExpected,
+        ?Exception $cause = null
+    ) {
 
         $this->setCodeName('ClassWrotypeException');
         $this->addInfo('context', $context);

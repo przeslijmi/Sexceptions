@@ -19,7 +19,7 @@ class PropertyIsEmptyException extends Sexception
      *
      * @since v1.0
      */
-    public function __construct(string $propertyName, ?Exception $cause=null)
+    public function __construct(string $propertyName, ?Exception $cause = null)
     {
 
         $this->setCodeName('PropertyIsEmptyException');

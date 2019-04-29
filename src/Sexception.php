@@ -61,10 +61,10 @@ abstract class Sexception extends Exception
      * @return self
      * @since  v1.0
      */
-    public function addInfo(string $infoKey, ?string $infoValue=null) : self
+    public function addInfo(string $infoKey, ?string $infoValue = null) : self
     {
 
-        // ignore if there is no value
+        // Ignore if there is no value.
         if (is_null($infoValue) === true) {
             return $this;
         }
@@ -78,15 +78,15 @@ abstract class Sexception extends Exception
      * Adds many infos with possible prefix.
      *
      * @param array|null  $infos  Contents of infos to be added (array of key-info pairs).
-     * @param string|null $prefix (opt.) If given all info keys will be prefixed with this prefix and a dot.
+     * @param string|null $prefix Optional. If given all info keys will be prefixed with this prefix and a dot.
      *
      * @return self
      * @since  v1.0
      */
-    public function addInfos(?array $infos=null, ?string $prefix=null) : Sexception
+    public function addInfos(?array $infos = null, ?string $prefix = null) : Sexception
     {
 
-        // ignore if there is no value
+        // Ignore if there is no value.
         if (is_null($infos) === true) {
             return $this;
         }
@@ -97,33 +97,46 @@ abstract class Sexception extends Exception
 
         foreach ($infos as $infoKey => $infoValue) {
 
-            $showValue = '';
+            // Lvd.
+            $showValue     = '';
+            $infoValueDict = [
+                'resource' => 'nonScalarNonObject',
+                'NULL' => 'nonScalarNonObject',
+                'array' => 'nonScalarNonObject',
+                'unknown type' => 'nonScalarNonObject',
+                'resource (closed)' => 'nonScalarNonObject',
+                'boolean' => 'boolean',
+                'integer' => 'scalar',
+                'double' => 'scalar',
+                'string' => 'scalar',
+                'object' => 'object',
+            ];
+            $infoValueType = ( $infoValueDict[gettype($infoValue)] ?? 'unknown' );
 
             switch ($infoValueType = gettype($infoValue)) {
-            case 'resource':
-            case 'NULL':
-            case 'array':
-            case 'unknown type':
-            case 'resource (closed)':
-                $showValue = $infoValueType;
+
+                case 'nonScalarNonObject':
+                    $showValue = $infoValueType;
                 break;
 
-            case 'boolean':
-                $showValue = [ 'false', 'true' ][$infoValue];
+                case 'boolean':
+                    $showValue = [ 'false', 'true' ][$infoValue];
                 break;
 
-            case 'integer':
-            case 'double':
-            case 'string':
-                $showValue = (string) $infoValue;
+                case 'scalar':
+                    $showValue = (string) $infoValue;
                 break;
 
-            case 'object':
-                if (method_exists($infoValue, 'toString') === true) {
-                    $showValue = $infoValue->toString();
-                } else {
-                    $showValue = 'object (no toString method)';
-                }
+                case 'object':
+                    if (method_exists($infoValue, 'toString') === true) {
+                        $showValue = $infoValue->toString();
+                    } else {
+                        $showValue = 'object (no toString method)';
+                    }
+                break;
+
+                default:
+                    $showValue = 'unknown variable type';
                 break;
             }//end switch
 
