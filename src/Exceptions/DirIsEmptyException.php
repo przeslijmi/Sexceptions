@@ -6,24 +6,26 @@ use Exception;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
- * Operation outside class or method failed - nothing more will be done.
+ * File does not exists.
  */
-class FopException extends Sexception
+class DirIsEmptyException extends Sexception
 {
 
     /**
      * Constructor.
      *
      * @param string         $context During what operation, what is the nature of the error.
+     * @param string         $dirName Name of the file.
      * @param Exception|null $cause   Exception that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $context, ?Exception $cause = null)
+    public function __construct(string $context, string $dirName, ?Exception $cause = null)
     {
 
-        $this->setCodeName('FopException');
+        $this->setCodeName('DirIsEmptyException');
         $this->addInfo('context', $context);
+        $this->addInfo('dirName', $dirName);
 
         if (is_null($cause) === false) {
             parent::__construct($this->getCodeName(), 0, $cause);

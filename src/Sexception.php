@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Przeslijmi\Sexceptions;
 
@@ -83,7 +83,7 @@ abstract class Sexception extends Exception
      * @return self
      * @since  v1.0
      */
-    public function addInfos(?array $infos = null, ?string $prefix = null) : Sexception
+    public function addInfos(?array $infos = null, ?string $prefix = null) : self
     {
 
         // Ignore if there is no value.
@@ -147,6 +147,63 @@ abstract class Sexception extends Exception
     }
 
     /**
+     * Add object that serves public method `getExceptionInfos` to transfer infos faster.
+     *
+     * @param object $object Any object that serves `getExceptionInfos` public method.
+     *
+     * @return self
+     * @since  v1.0
+     */
+    public function addObjectInfos(object $object) : self
+    {
+
+        // Transfer each info.
+        foreach ($object->getExceptionInfos() as $infoKey => $infoValue) {
+            $this->addInfo($infoKey, $infoValue);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds hint.
+     *
+     * @param string $hint Hint for exception.
+     *
+     * @return self
+     * @since  v1.0
+     */
+    public function addHint(string $hint) : self
+    {
+
+        // Save.
+        $this->infos['hint'] = $hint;
+
+        return $this;
+    }
+
+    /**
+     * Showing warning when it was silenced.
+     *
+     * Warning has been silnced and now exception is thrown - so it is needed to
+     * show detailes of this silenced warning.
+     *
+     * @return self
+     * @since  v1.0
+     */
+    public function addWarning() : self
+    {
+
+        // Lvd.
+        $last = error_get_last();
+
+        // Add info about warning.
+        $this->addInfo('warning', ( $last['message'] ?? '' ));
+
+        return $this;
+    }
+
+    /**
      * Getter for all infos.
      *
      * @return array
@@ -154,6 +211,23 @@ abstract class Sexception extends Exception
      */
     public function getInfos() : array
     {
+
         return $this->infos;
+    }
+
+    /**
+     * Setter for cause of exception (to create chain of causes).
+     *
+     * @param Exception $exception Exception that caused current exception.
+     *
+     * @return self
+     * @since  v1.0
+     */
+    public function setCause(Exception $exception) : self
+    {
+
+        parent::__construct($this->getCodeName(), 0, $exception);
+
+        return $this;
     }
 }

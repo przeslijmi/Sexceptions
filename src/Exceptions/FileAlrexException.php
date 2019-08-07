@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
@@ -6,7 +6,7 @@ use Exception;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
- * File already exists.
+ * File already exists - and cannot be overwritten.
  */
 class FileAlrexException extends Sexception
 {

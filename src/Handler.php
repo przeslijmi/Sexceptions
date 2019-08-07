@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Przeslijmi\Sexceptions;
 
@@ -8,12 +8,7 @@ use Exception;
  * Handling error tool.
  *
  * ## Abilities
- * - Show Sexceptions to screen including causes (exception chains).
- *
- * ## Todo
- * - Showing to HTML - not only to consle (PHP_EOL vs BR)
- * - Logging
- * - Handle other exceptions and errors
+ * - Show Sexceptions to CLI screen including causes (exception chains).
  *
  * ## Usage
  *
@@ -29,13 +24,14 @@ class Handler
 {
 
     /**
-     * Handles all Exceptions.
+     * Handles Sexceptions.
      *
      * @param Exception $e Exception to handle.
      *
-     * @todo   Does it handle errors?
      * @return void
      * @since  v1.0
+     *
+     * @phpcs:disable Squiz.PHP.DiscouragedFunctions
      */
     public static function handle(Exception $e) : void
     {
@@ -43,7 +39,8 @@ class Handler
         if (is_a($e, 'Przeslijmi\Sexceptions\Sexception') === true) {
             self::handleSexception($e);
         } else {
-            die('unknown to handle');
+            var_dump($e);
+            die('unknown to handle ... ' . get_class($e));
         }
     }
 
@@ -104,6 +101,8 @@ class Handler
      *
      * @return string
      * @since  v1.0
+     *
+     * @phpcs:disable Generic.Metrics.CyclomaticComplexity
      */
     private static function echoSexception(Sexception $e, bool $deeperCause = false) : string
     {
@@ -113,25 +112,72 @@ class Handler
         $response .= ' [on ' . substr($e->getFile(), ( strlen(ROOT_PATH) + 1 ));
         $response .= ' #' . $e->getLine() . ']' . PHP_EOL;
 
+        // Show parents.
+        $parents = class_parents($e);
+        if (count($parents) >= 3) {
+
+            // Ignore Exception and Sexception classes.
+            $parents = array_slice($parents, 0, -2);
+
+            // Now `$parent` is string with class name.
+            foreach ($parents as $parent) {
+
+                if (substr($parent, 0, 34) === 'Przeslijmi\Sexceptions\Exceptions\\') {
+                    $parent = substr($parent, 34);
+                }
+                $response .= '    extends: >>> ' . $parent . PHP_EOL;
+            }
+        }
+
         // Show all infos.
         foreach ($e->getInfos() as $key => $value) {
-            $response .= '    ' . $key . ': ' . $value . PHP_EOL;
+
+            $response .= '    ';
+
+            // If this is hint add yellow background with black letters.
+            if ($key === 'hint') {
+                $response .= "\e[0;30;43m";
+            }
+
+            $response .= $key . ': ' . $value;
+
+            // If this was hint turn off colloring.
+            if ($key === 'hint') {
+                $response .= "\e[0m";
+            }
+
+            $response .= PHP_EOL;
         }
 
         // If this is NOT a deeper cause - show trace also.
         if ($deeperCause === false) {
 
             // Lvd.
-            $trace = $e->getTrace()[0];
+            $headerGiven = false;
 
-            if (empty($trace['file']) === false) {
-                $response .= '    called:';
-                $response .= ' [on ' . substr($trace['file'], ( strlen(ROOT_PATH) + 1 ));
+            // Draw traces.
+            foreach ($e->getTrace() as $trace) {
+
+                if (empty($trace['file']) === true) {
+                    continue;
+                }
+
+                if ($headerGiven === false) {
+                    $headerGiven = true;
+                    $response   .= '    called: ';
+                } else {
+                    $response .= '            ';
+                }
+
+                $response .= '[on ' . substr($trace['file'], ( strlen(ROOT_PATH) + 1 ));
                 $response .= ' #' . $trace['line'];
-                $response .= ' by ' . $trace['class'] . '::' . $trace['function'];
+
+                if (isset($trace['class']) === true) {
+                    $response .= ' by ' . $trace['class'] . '::' . $trace['function'];
+                }
                 $response .= ']' . PHP_EOL;
-            }
-        }
+            }//end foreach
+        }//end if
 
         // It there is a deeper cause - call to show it also (recursively).
         if (is_a($e->getPrevious(), 'Przeslijmi\Sexceptions\Sexception') === true) {

@@ -6,15 +6,15 @@ use Exception;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
- * Operation outside class or method failed - nothing more will be done.
+ * Some object that is called is not existing.
  */
-class FopException extends Sexception
+class ObjectDonoexException extends Sexception
 {
 
     /**
      * Constructor.
      *
-     * @param string         $context During what operation, what is the nature of the error.
+     * @param string         $context What object is missing.
      * @param Exception|null $cause   Exception that caused the problem.
      *
      * @since v1.0
@@ -22,7 +22,7 @@ class FopException extends Sexception
     public function __construct(string $context, ?Exception $cause = null)
     {
 
-        $this->setCodeName('FopException');
+        $this->setCodeName('ObjectDonoexException');
         $this->addInfo('context', $context);
 
         if (is_null($cause) === false) {

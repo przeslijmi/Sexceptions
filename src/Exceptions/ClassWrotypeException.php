@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
@@ -6,7 +6,7 @@ use Exception;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
- * Looking for class that does not exist.
+ * Looking for class of other type that has been found.
  */
 class ClassWrotypeException extends Sexception
 {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
@@ -6,7 +6,7 @@ use Exception;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
- * Parameter's given value is out of set (enum - not out of range [i .... j]).
+ * Propoerty of object is empty - and mustn't be.
  */
 class PropertyIsEmptyException extends Sexception
 {

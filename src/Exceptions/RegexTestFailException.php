@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
@@ -26,6 +26,7 @@ class RegexTestFailException extends Sexception
         $this->setCodeName('RegexTestFailException');
         $this->addInfo('value', $value);
         $this->addInfo('regex', $regex);
+        $this->addHint('See RegEx above!');
 
         if (is_null($cause) === false) {
             parent::__construct($this->getCodeName(), 0, $cause);
