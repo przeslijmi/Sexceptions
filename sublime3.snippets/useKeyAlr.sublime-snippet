@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\KeyAlrexException;
+]]></content>
+	<tabTrigger>useKeyAlr</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

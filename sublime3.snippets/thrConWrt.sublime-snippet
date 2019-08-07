@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ConstWrotypeException(\$${1:string constName}, \$${2:string typeExpected}, \$${3:string actualType}, ${4:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrConWrt</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\MethodDonoexException;
+]]></content>
+	<tabTrigger>useMthDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

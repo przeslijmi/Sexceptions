@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new PropertyIsEmptyException(\$${1:string propertyName}, ${2:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrPrpIse</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

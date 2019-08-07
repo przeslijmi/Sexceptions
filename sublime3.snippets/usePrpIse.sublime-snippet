@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\PropertyIsEmptyException;
+]]></content>
+	<tabTrigger>usePrpIse</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

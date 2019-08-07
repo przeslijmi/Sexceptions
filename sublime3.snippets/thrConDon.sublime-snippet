@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ConstDonoexException(\$${1:string context}, \$${2:string constName}, ${3:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrConDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

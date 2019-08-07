@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new DirIsEmptyException(\$${1:string context}, \$${2:string dirName}, ${3:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrDirIse</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

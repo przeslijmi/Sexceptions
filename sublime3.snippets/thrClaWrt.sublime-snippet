@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ClassWrotypeException(\$${1:string context}, \$${2:string className}, \$${3:string parentClassNameExpected}, ${4:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrClaWrt</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

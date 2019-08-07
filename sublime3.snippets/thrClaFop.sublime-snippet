@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ClassFopException(\$${1:string context}, ${2:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrClaFop</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

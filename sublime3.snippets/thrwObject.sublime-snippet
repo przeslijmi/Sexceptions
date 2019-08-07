@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+->addObjectInfos(\$${1:this})
+]]></content>
+	<tabTrigger>thrwObject</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

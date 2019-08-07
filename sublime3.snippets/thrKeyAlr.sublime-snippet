@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new KeyAlrexException(\$${1:string context}, \$${2:string actualKey}, ${3:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrKeyAlr</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

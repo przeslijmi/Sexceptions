@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\FileDonoexException;
+]]></content>
+	<tabTrigger>useFilDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

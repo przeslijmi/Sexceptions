@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new TypeHintingFailException(\$${1:string shouldBe}, \$${2:string isInFact}, ${3:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrTphFai</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

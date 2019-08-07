@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\DirDonoexException;
+]]></content>
+	<tabTrigger>useDirDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

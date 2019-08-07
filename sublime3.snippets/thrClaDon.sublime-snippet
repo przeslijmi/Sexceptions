@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ClassDonoexException(\$${1:string context}, \$${2:string className}, ${3:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrClaDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

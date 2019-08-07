@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ParamOtoranException(\$${1:string paramName}, \$${2:string range}, \$${3:string actualValue}, ${4:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrParOtr</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

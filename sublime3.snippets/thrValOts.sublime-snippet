@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ValueOtosetException(\$${1:string name}, \$${2:string range}, \$${3:string actualValue}, ${4:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrValOts</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

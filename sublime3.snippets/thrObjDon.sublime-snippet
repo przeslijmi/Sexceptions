@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ObjectDonoexException(\$${1:string context});
+]]></content>
+	<tabTrigger>thrObjDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ParamWrosynException(\$${1:string paramName}, \$${2:array actualValue}, ${3:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrParWrs</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

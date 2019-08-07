@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+->addHint('${1:string hint}')
+]]></content>
+	<tabTrigger>thrwHint</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

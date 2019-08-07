@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\ClassDonoexException;
+]]></content>
+	<tabTrigger>useClaDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

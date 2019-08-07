@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new MethodFopException(\$${1:string context}, ${2:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrMthFop</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\ClassFopException;
+]]></content>
+	<tabTrigger>useClaFop</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

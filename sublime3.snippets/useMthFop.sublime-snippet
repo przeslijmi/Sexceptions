@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\MethodFopException;
+]]></content>
+	<tabTrigger>useMthFop</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

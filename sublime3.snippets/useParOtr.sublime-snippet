@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\ParamOtoranException;
+]]></content>
+	<tabTrigger>useParOtr</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

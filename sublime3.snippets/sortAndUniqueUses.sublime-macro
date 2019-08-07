@@ -1,0 +1,16 @@
+[
+	{
+		"args":
+		{
+			"case_sensitive": false
+		},
+		"command": "sort_lines"
+	},
+	{
+		"args":
+		{
+			"operation": "unique"
+		},
+		"command": "permute_lines"
+	}
+]

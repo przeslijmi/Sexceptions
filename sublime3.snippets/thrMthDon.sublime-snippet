@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new MethodDonoexException(\$${1:string context}, \$${2:string className}, \$${3:string methodName}, ${4:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrMthDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

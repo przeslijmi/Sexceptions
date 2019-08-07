@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\TypeHintingFailException;
+]]></content>
+	<tabTrigger>useTphFai</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

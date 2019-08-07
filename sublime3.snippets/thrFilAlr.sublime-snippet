@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new FileAlrexException(\$${1:string context}, \$${2:string fileName}, ${3:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrFilAlr</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

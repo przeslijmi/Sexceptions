@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new KeyDonoexException(\$${1:string context}, \$${2:array range}, \$${3:string actualKey}, ${4:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrKeyDon</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

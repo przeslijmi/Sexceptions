@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new ConstIsEmptyException(\$${1:string constName}, ${2:?Exception \$cause});
+]]></content>
+	<tabTrigger>thrConIse</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

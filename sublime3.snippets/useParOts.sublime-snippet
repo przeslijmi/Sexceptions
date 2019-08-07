@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Exceptions\ParamOtosetException;
+]]></content>
+	<tabTrigger>useParOts</tabTrigger>
+	<scope>source.php</scope>
+</snippet>
