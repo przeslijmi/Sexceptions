@@ -26,7 +26,11 @@ class KeyDonoexException extends Sexception
 
         $this->setCodeName('KeyDonoexException');
         $this->addInfo('context', $context);
-        $this->addInfo('range', implode(', ', $range));
+        if (count($range) > 0) {
+            $this->addInfo('range', implode(', ', $range));
+        } else {
+            $this->addInfo('range', 'EMPTY (NONE POSSIBLE)');
+        }
         $this->addInfo('actualKey', $actualKey);
 
         if (is_null($cause) === false) {

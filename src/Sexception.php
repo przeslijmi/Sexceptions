@@ -98,12 +98,12 @@ abstract class Sexception extends Exception
         foreach ($infos as $infoKey => $infoValue) {
 
             // Lvd.
-            $showValue     = '';
+            $showValue     = 'unknown variable type';
             $infoValueDict = [
                 'resource' => 'nonScalarNonObject',
                 'NULL' => 'nonScalarNonObject',
                 'array' => 'nonScalarNonObject',
-                'unknown type' => 'nonScalarNonObject',
+                'unknown type' => 'unknown',
                 'resource (closed)' => 'nonScalarNonObject',
                 'boolean' => 'boolean',
                 'integer' => 'scalar',
@@ -113,7 +113,7 @@ abstract class Sexception extends Exception
             ];
             $infoValueType = ( $infoValueDict[gettype($infoValue)] ?? 'unknown' );
 
-            switch ($infoValueType = gettype($infoValue)) {
+            switch ($infoValueType) {
 
                 case 'nonScalarNonObject':
                     $showValue = $infoValueType;
@@ -133,10 +133,6 @@ abstract class Sexception extends Exception
                     } else {
                         $showValue = 'object (no toString method)';
                     }
-                break;
-
-                default:
-                    $showValue = 'unknown variable type';
                 break;
             }//end switch
 

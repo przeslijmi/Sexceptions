@@ -3,6 +3,7 @@
 namespace Przeslijmi\Sexceptions;
 
 use Exception;
+use RuntimeException;
 
 /**
  * Handling error tool.
@@ -36,12 +37,17 @@ class Handler
     public static function handle(Exception $e) : void
     {
 
+        // Maybe something we know?
         if (is_a($e, 'Przeslijmi\Sexceptions\Sexception') === true) {
             self::handleSexception($e);
-        } else {
-            var_dump($e);
-            die('unknown to handle ... ' . get_class($e));
+            return;
         }
+
+        // Show all.
+        $text = print_r($e, true);
+
+        // Die finally.
+        throw new RuntimeException('unableToHandleException' . ucfirst(get_class($e)) . $text);
     }
 
     /**
