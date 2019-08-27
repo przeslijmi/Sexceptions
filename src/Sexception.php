@@ -44,10 +44,16 @@ abstract class Sexception extends Exception
      * Getter for code name.
      *
      * @return string
+     * @since  v1.1 When no code name defined - class name (without namespace) is returned as default.
      * @since  v1.0
      */
     public function getCodeName() : string
     {
+
+        // When no code name defined - class name (without namespace) is returned as default.
+        if (empty($this->codeName) === true) {
+            return substr(get_class($this), ( strrpos(get_class($this), '\\') + 1 ));
+        }
 
         return $this->codeName;
     }
