@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+use Przeslijmi\Sexceptions\Sexception;
+]]></content>
+	<tabTrigger>useSxc</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

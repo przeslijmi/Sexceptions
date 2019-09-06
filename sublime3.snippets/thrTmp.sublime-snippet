@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+throw new TemporaryException(\$${1:string content});
+]]></content>
+	<tabTrigger>thrTmp</tabTrigger>
+	<scope>source.php</scope>
+</snippet>

@@ -3,6 +3,7 @@
 namespace Przeslijmi\Sexceptions;
 
 use Exception;
+use Throwable;
 
 /**
  * Parent of all Sexceptions.
@@ -48,6 +49,11 @@ abstract class Sexception extends Exception
      */
     public function getCodeName() : string
     {
+
+        // When no code name defined - class name (without namespace) is returned as default.
+        if (empty($this->codeName) === true) {
+            return substr(get_class($this), ( strrpos(get_class($this), '\\') + 1 ));
+        }
 
         return $this->codeName;
     }
@@ -212,18 +218,62 @@ abstract class Sexception extends Exception
     }
 
     /**
-     * Setter for cause of exception (to create chain of causes).
+     * Setter for cause of Throwabel (to create chain of causes).
      *
-     * @param Exception $exception Exception that caused current exception.
+     * @param Throwable $throwable Throwable that caused current Throwabel.
      *
      * @return self
      * @since  v1.0
      */
-    public function setCause(Exception $exception) : self
+    public function setCause(Throwable $throwable) : self
     {
 
-        parent::__construct($this->getCodeName(), 0, $exception);
+        parent::__construct($this->getCodeName(), 0, $throwable);
 
         return $this;
+    }
+
+    /**
+     * Getter for cause of this Throwable (if present);
+     *
+     * @since  v1.0
+     * @return null|Throwable
+     */
+    public function getCause() : ?Throwable
+    {
+
+        return $this->getPrevious();
+    }
+
+    /**
+     * Return exception from causes of this Sexception that has given cause class.
+     *
+     * @param string         $className What Sexception class to look in causes.
+     * @param Exception|null $deeper    Ignore. Just to loop in.
+     *
+     * @since  v1.0
+     * @return null|Sexception Sexception of given class or null.
+     */
+    public function hasInCauses(string $className, ?Exception $deeper = null) : ?Sexception
+    {
+
+        // Lvd.
+        if (func_num_args() === 2) {
+            $analize = $deeper->getPrevious();
+        } else {
+            $analize = $this->getPrevious();
+        }
+
+        // Short way - if this is null or not an Sexception.
+        if ($analize === null || is_a($analize, 'Przeslijmi\Sexceptions\Sexception') === false) {
+            return null;
+        }
+
+        // There is!
+        if (get_class($analize) === $className) {
+            return $analize;
+        }
+
+        return $this->hasInCauses($className, $analize);
     }
 }

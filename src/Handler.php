@@ -2,24 +2,18 @@
 
 namespace Przeslijmi\Sexceptions;
 
+use Throwable;
+use Error;
 use Exception;
 use RuntimeException;
+use Przeslijmi\Silogger\Log;
 
 /**
  * Handling error tool.
  *
  * ## Abilities
- * - Show Sexceptions to CLI screen including causes (exception chains).
- *
- * ## Usage
- *
- * ### Only for Sexceptions
- * ```
- * try {
- *     // some code
- * } catch (\Przeslijmi\Sexceptions\Sexception $e) {
- *     \Przeslijmi\Sexceptions\self::handle($e);
- * }
+ * - Show Throwable to CLI or JSON response.
+ * - Send 500 header.
  */
 class Handler
 {
@@ -34,31 +28,7 @@ class Handler
      *
      * @phpcs:disable Squiz.PHP.DiscouragedFunctions
      */
-    public static function handle(Exception $e) : void
-    {
-
-        // Maybe something we know?
-        if (is_a($e, 'Przeslijmi\Sexceptions\Sexception') === true) {
-            self::handleSexception($e);
-            return;
-        }
-
-        // Show all.
-        $text = print_r($e, true);
-
-        // Die finally.
-        throw new RuntimeException('unableToHandleException' . ucfirst(get_class($e)) . $text);
-    }
-
-    /**
-     * Handles (show to the screen) exceptions.
-     *
-     * @param Sexception $e Exception to be handled.
-     *
-     * @return void
-     * @since  v1.0
-     */
-    private static function handleSexception(Sexception $e) : void
+    public static function handle(Throwable $thr) : void
     {
 
         // Lvd.
@@ -67,7 +37,7 @@ class Handler
         if (CALL_TYPE === 'client') {
 
             // Get response.
-            $response .= self::echoSexception($e);
+            $response .= self::toString($thr);
             $json      = json_encode(
                 [
                     'errorReport' => explode(PHP_EOL, $response),
@@ -87,39 +57,61 @@ class Handler
             $response .= PHP_EOL . PHP_EOL;
             $response .= str_pad('', 90, '=');
             $response .= PHP_EOL;
-            $response .= self::echoSexception($e);
+            $response .= self::toString($thr);
             $response .= str_pad('', 90, '=');
             $response .= PHP_EOL . PHP_EOL;
 
             echo $response;
         }//end if
 
-        // End of service.
-        die;
+        // Log.
+        $log = Log::get();
+        $log->emergency(get_class($thr), [ 'response' => $response ]);
     }
 
     /**
-     * Show information about exception to the screen.
+     * Convert Sexception, Exception or Error to string.
      *
-     * @param Sexception $e           Exception to be showed.
-     * @param boolean    $deeperCause Opt., false. If set to true - it means that this Exception is a cause
+     * @param Throwable $thr         Throwable to be showed.
+     * @param boolean   $deeperCause Opt., false. If set to true - it means that this Throwable is a cause
+     *                               to a previous one.
+     *
+     * @return string
+     * @since  v2.0
+     */
+    private static function toString(Throwable $thr, bool $deeperCause = false) : string
+    {
+
+        // It there is a deeper cause - call to show it also (recursively).
+        if (is_a($thr, 'Przeslijmi\Sexceptions\Sexception') === true) {
+            return self::sexceptionToString($thr, $deeperCause);
+        } elseif (is_a($thr, 'Exception') === true) {
+            return self::exceptionToString($thr, $deeperCause);
+        }
+
+        return self::errorToString($thr, $deeperCause);
+    }
+
+    /**
+     * Convert Sexception to string.
+     *
+     * @param Sexception $sexc        Sexception to be showed.
+     * @param boolean    $deeperCause Opt., false. If set to true - it means that this Sexception is a cause
      *                                to a previous one.
      *
      * @return string
      * @since  v1.0
-     *
-     * @phpcs:disable Generic.Metrics.CyclomaticComplexity
      */
-    private static function echoSexception(Sexception $e, bool $deeperCause = false) : string
+    private static function sexceptionToString(Sexception $sexc, bool $deeperCause = false) : string
     {
 
         // Show code name, file and line.
-        $response  = $e->getCodeName();
-        $response .= ' [on ' . substr($e->getFile(), ( strlen(ROOT_PATH) + 1 ));
-        $response .= ' #' . $e->getLine() . ']' . PHP_EOL;
+        $response  = $sexc->getCodeName();
+        $response .= ' [on ' . substr($sexc->getFile(), ( strlen(ROOT_PATH) + 1 ));
+        $response .= ' #' . $sexc->getLine() . ']' . PHP_EOL;
 
         // Show parents.
-        $parents = class_parents($e);
+        $parents = class_parents($sexc);
         if (count($parents) >= 3) {
 
             // Ignore Exception and Sexception classes.
@@ -135,8 +127,109 @@ class Handler
             }
         }
 
-        // Show all infos.
-        foreach ($e->getInfos() as $key => $value) {
+        $response .= self::infosToString($sexc->getInfos());
+
+        // If this is NOT a deeper cause - show trace also.
+        // if ($deeperCause === false) {
+            $response .= self::tracesToString($sexc->getTrace());
+        // }
+
+        // Show previous.
+        if (is_null($sexc->getPrevious()) === false) {
+            $response .= 'caused by ';
+            $response .= self::toString($sexc->getPrevious(), true);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Convert Exception to string.
+     *
+     * @param Exception $exc         Exception to be showed.
+     * @param boolean   $deeperCause Opt., false. If set to true - it means that this Exception is a cause
+     *                               to a previous one.
+     *
+     * @since  v2.0
+     * @return string
+     */
+    private static function exceptionToString(Exception $exc, bool $deeperCause = false) : string
+    {
+
+        $respons = 'hiii';
+
+        // Show previous.
+        if (is_null($exc->getPrevious()) === false) {
+            $response .= 'caused by ';
+            $response .= self::toString($exc->getPrevious(), true);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Convert Error to string.
+     *
+     * @param Error   $err         Error to be showed.
+     * @param boolean $deeperCause Opt., false. If set to true - it means that this Error is a cause
+     *                             to a previous one.
+     *
+     * @since  v2.0
+     * @return string
+     */
+    private static function errorToString(Error $err, bool $deeperCause = false) : string
+    {
+
+        // Format message.
+        $message = $err->getMessage();
+
+        // Cut unneeded.
+        if (($cut = strrpos($message, ', called ')) !== false) {
+            $message = substr($message, 0, $cut) . '.';
+        } elseif (($cut = strrpos($message, ' passed ')) !== false) {
+            $message = substr($message, 0, $cut) . '.';
+        }
+
+        // Format file.
+        $file = substr($err->getFile(), ( strlen(ROOT_PATH) + 1 ));
+
+        // Create response.
+        $response = get_class($err) . PHP_EOL;
+        $response .= self::infosToString([
+            'code'    => $err->getCode(),
+            'message' => $message,
+            'called'  => '[on: ' . $file . ' #' . $err->getLine() . ']',
+        ]);
+
+        // If this is NOT a deeper cause - show trace also.
+        // if ($deeperCause === false) {
+            $response .= self::tracesToString($err->getTrace());
+        // }
+
+        // Show previous.
+        if (is_null($err->getPrevious()) === false) {
+            $response .= 'caused by ';
+            $response .= self::toString($err->getPrevious(), true);
+        }
+
+        return $response;
+    }
+
+    /**
+     * Converts infos to string.
+     *
+     * @param array $infos Array with key (info name) and value (info contents).
+     *
+     * @since  v2.0
+     * @return string
+     */
+    private static function infosToString(array $infos) : string
+    {
+
+        // Lvd.
+        $response = '';
+
+        foreach ($infos as $key => $value) {
 
             $response .= '    ';
 
@@ -155,41 +248,46 @@ class Handler
             $response .= PHP_EOL;
         }
 
-        // If this is NOT a deeper cause - show trace also.
-        if ($deeperCause === false) {
+        return $response;
+    }
 
-            // Lvd.
-            $headerGiven = false;
+    /**
+     * Converts traces to string.
+     *
+     * @param array $traces Traces of Throwable.
+     *
+     * @since  v2.0
+     * @return string
+     */
+    private static function tracesToString(array $traces) : string
+    {
 
-            // Draw traces.
-            foreach ($e->getTrace() as $trace) {
+        // Lvd.
+        $response    = '';
+        $headerGiven = false;
 
-                if (empty($trace['file']) === true) {
-                    continue;
-                }
+        // Draw traces.
+        foreach ($traces as $trace) {
 
-                if ($headerGiven === false) {
-                    $headerGiven = true;
-                    $response   .= '    called: ';
-                } else {
-                    $response .= '            ';
-                }
+            if (empty($trace['file']) === true) {
+                continue;
+            }
 
-                $response .= '[on ' . substr($trace['file'], ( strlen(ROOT_PATH) + 1 ));
-                $response .= ' #' . $trace['line'];
+            if ($headerGiven === false) {
+                $headerGiven = true;
+                $response   .= '    traces: ';
+            } else {
+                $response .= '            ';
+            }
 
-                if (isset($trace['class']) === true) {
-                    $response .= ' by ' . $trace['class'] . '::' . $trace['function'];
-                }
-                $response .= ']' . PHP_EOL;
-            }//end foreach
-        }//end if
+            $response .= '[on ' . substr($trace['file'], ( strlen(ROOT_PATH) + 1 ));
+            $response .= ' #' . $trace['line'];
 
-        // It there is a deeper cause - call to show it also (recursively).
-        if (is_a($e->getPrevious(), 'Przeslijmi\Sexceptions\Sexception') === true) {
-            $response .= 'caused by ';
-            $response .= self::echoSexception($e->getPrevious(), true);
-        }
+            if (isset($trace['class']) === true) {
+                $response .= ' by ' . $trace['class'] . '::' . $trace['function'];
+            }
+            $response .= ']' . PHP_EOL;
+        }//end foreach
 
         return $response;
     }
