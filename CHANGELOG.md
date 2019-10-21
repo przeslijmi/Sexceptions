@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.0 - 2019-10-21
+
+- Added `LoopOtoranException`.
+- Added `ValueWrotypeException`.
+- Changed in `ClassFopException` to accept Throwables instead of just Exception. TBC.
+
 ## v1.2.0 - 2019-09-10
 
 - Added: handling for errors and `Throwables`.
