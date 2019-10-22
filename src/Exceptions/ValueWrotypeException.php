@@ -19,7 +19,7 @@ class ValueWrotypeException extends Sexception
      * @param string         $actualType   Actually given type.
      * @param Exception|null $cause        Exception that caused the problem.
      *
-     * @since v1.0
+     * @since v1.2
      */
     public function __construct(string $valueName, string $typeExpected, string $actualType, ?Exception $cause = null)
     {
