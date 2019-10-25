@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -16,11 +16,11 @@ class LoopOtoranException extends Sexception
      *
      * @param string         $context  During what operation, what is the nature of the error.
      * @param integer        $maxRange Range that was reached.
-     * @param Exception|null $cause    Exception that caused the problem.
+     * @param Throwable|null $cause    Throwable that caused the problem.
      *
      * @since v1.2
      */
-    public function __construct(string $context, int $maxRange, ?Exception $cause = null)
+    public function __construct(string $context, int $maxRange, ?Throwable $cause = null)
     {
 
         $this->addInfo('context', $context);

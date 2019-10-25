@@ -141,6 +141,10 @@ abstract class Sexception extends Exception
                         $showValue = 'object (no toString method)';
                     }
                 break;
+
+                default:
+                    $showValue = 'unknown value type';
+                break;
             }//end switch
 
             $this->infos[( $prefix . $infoKey )] = $showValue;

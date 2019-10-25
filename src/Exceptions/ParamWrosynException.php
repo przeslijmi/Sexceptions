@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -16,14 +16,13 @@ class ParamWrosynException extends Sexception
      *
      * @param string         $paramName   Name of the parameter with error.
      * @param string         $actualValue Actually given value.
-     * @param Exception|null $cause       Exception that caused the problem.
+     * @param Throwable|null $cause       Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $paramName, string $actualValue, ?Exception $cause = null)
+    public function __construct(string $paramName, string $actualValue, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('ParamWrosynException');
         $this->addInfo('paramName', $paramName);
         $this->addInfo('actualValue', $actualValue);
 

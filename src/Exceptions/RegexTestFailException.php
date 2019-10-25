@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -16,14 +16,13 @@ class RegexTestFailException extends Sexception
      *
      * @param string         $value Value that has been checked against regular expression.
      * @param string         $regex Contents of the regular expression.
-     * @param Exception|null $cause Exception that caused the problem.
+     * @param Throwable|null $cause Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $value, string $regex, ?Exception $cause = null)
+    public function __construct(string $value, string $regex, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('RegexTestFailException');
         $this->addInfo('value', $value);
         $this->addInfo('regex', $regex);
         $this->addHint('See RegEx above!');

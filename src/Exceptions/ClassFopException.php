@@ -22,7 +22,6 @@ class ClassFopException extends Sexception
     public function __construct(string $context, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('ClassFopException');
         $this->addInfo('context', $context);
 
         if (is_null($cause) === false) {

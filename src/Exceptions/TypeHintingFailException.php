@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -32,14 +32,13 @@ class TypeHintingFailException extends Sexception
      *
      * @param string         $shouldBe What type should be used.
      * @param string         $isInFact What is the real type of the value.
-     * @param Exception|null $cause    Exception that caused the problem.
+     * @param Throwable|null $cause    Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $shouldBe, string $isInFact, ?Exception $cause = null)
+    public function __construct(string $shouldBe, string $isInFact, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('TypeHintingFailException');
         $this->addInfo('shouldBe', $shouldBe);
         $this->addInfo('isInFact', $isInFact);
 

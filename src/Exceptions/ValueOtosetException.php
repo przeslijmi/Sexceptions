@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -17,14 +17,13 @@ class ValueOtosetException extends Sexception
      * @param string         $name        Name of the value with error.
      * @param array          $range       Possible values that can be given.
      * @param string         $actualValue Actually given value.
-     * @param Exception|null $cause       Exception that caused the problem.
+     * @param Throwable|null $cause       Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $name, array $range, string $actualValue, ?Exception $cause = null)
+    public function __construct(string $name, array $range, string $actualValue, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('ParamOtosetException');
         $this->addInfo('name', $name);
         if (count($range) > 0) {
             $this->addInfo('range', implode(', ', $range));

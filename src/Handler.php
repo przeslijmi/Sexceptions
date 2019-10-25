@@ -2,11 +2,11 @@
 
 namespace Przeslijmi\Sexceptions;
 
-use Throwable;
 use Error;
 use Exception;
-use RuntimeException;
 use Przeslijmi\Silogger\Log;
+use RuntimeException;
+use Throwable;
 
 /**
  * Handling error tool.
@@ -21,7 +21,7 @@ class Handler
     /**
      * Handles Sexceptions.
      *
-     * @param Exception $e Exception to handle.
+     * @param Throwable $thr Throwable to handle.
      *
      * @return void
      * @since  v1.0
@@ -72,37 +72,33 @@ class Handler
     /**
      * Convert Sexception, Exception or Error to string.
      *
-     * @param Throwable $thr         Throwable to be showed.
-     * @param boolean   $deeperCause Opt., false. If set to true - it means that this Throwable is a cause
-     *                               to a previous one.
+     * @param Throwable $thr Throwable to be showed.
      *
      * @return string
      * @since  v2.0
      */
-    private static function toString(Throwable $thr, bool $deeperCause = false) : string
+    private static function toString(Throwable $thr) : string
     {
 
-        // It there is a deeper cause - call to show it also (recursively).
+        // It there is a f cause - call to show it also (recursively).
         if (is_a($thr, 'Przeslijmi\Sexceptions\Sexception') === true) {
-            return self::sexceptionToString($thr, $deeperCause);
+            return self::sexceptionToString($thr);
         } elseif (is_a($thr, 'Exception') === true) {
-            return self::exceptionToString($thr, $deeperCause);
+            return self::exceptionToString($thr);
         }
 
-        return self::errorToString($thr, $deeperCause);
+        return self::errorToString($thr);
     }
 
     /**
      * Convert Sexception to string.
      *
-     * @param Sexception $sexc        Sexception to be showed.
-     * @param boolean    $deeperCause Opt., false. If set to true - it means that this Sexception is a cause
-     *                                to a previous one.
+     * @param Sexception $sexc Sexception to be showed.
      *
      * @return string
      * @since  v1.0
      */
-    private static function sexceptionToString(Sexception $sexc, bool $deeperCause = false) : string
+    private static function sexceptionToString(Sexception $sexc) : string
     {
 
         // Show code name, file and line.
@@ -127,12 +123,11 @@ class Handler
             }
         }
 
+        // Show info.
         $response .= self::infosToString($sexc->getInfos());
 
-        // If this is NOT a deeper cause - show trace also.
-        // if ($deeperCause === false) {
-            $response .= self::tracesToString($sexc->getTrace());
-        // }
+        // Show trace.
+        $response .= self::tracesToString($sexc->getTrace());
 
         // Show previous.
         if (is_null($sexc->getPrevious()) === false) {
@@ -146,17 +141,19 @@ class Handler
     /**
      * Convert Exception to string.
      *
-     * @param Exception $exc         Exception to be showed.
-     * @param boolean   $deeperCause Opt., false. If set to true - it means that this Exception is a cause
-     *                               to a previous one.
+     * @param Exception $exc Exception to be showed.
      *
      * @since  v2.0
      * @return string
      */
-    private static function exceptionToString(Exception $exc, bool $deeperCause = false) : string
+    private static function exceptionToString(Exception $exc) : string
     {
 
-        $respons = 'hiii';
+        // Show code name, file and line.
+        $response  = get_class($exc);
+        $response .= ' [on ' . substr($exc->getFile(), ( strlen(ROOT_PATH) + 1 ));
+        $response .= ' #' . $exc->getLine() . ']' . PHP_EOL;
+        $response .= '    message: >>> ' . $exc->getMessage() . PHP_EOL;
 
         // Show previous.
         if (is_null($exc->getPrevious()) === false) {
@@ -170,23 +167,21 @@ class Handler
     /**
      * Convert Error to string.
      *
-     * @param Error   $err         Error to be showed.
-     * @param boolean $deeperCause Opt., false. If set to true - it means that this Error is a cause
-     *                             to a previous one.
+     * @param Error $err Error to be showed.
      *
      * @since  v2.0
      * @return string
      */
-    private static function errorToString(Error $err, bool $deeperCause = false) : string
+    private static function errorToString(Error $err) : string
     {
 
         // Format message.
         $message = $err->getMessage();
 
         // Cut unneeded.
-        if (($cut = strrpos($message, ', called ')) !== false) {
+        if (( $cut = strrpos($message, ', called ') ) !== false) {
             $message = substr($message, 0, $cut) . '.';
-        } elseif (($cut = strrpos($message, ' passed ')) !== false) {
+        } elseif (( $cut = strrpos($message, ' passed ') ) !== false) {
             $message = substr($message, 0, $cut) . '.';
         }
 
@@ -194,17 +189,15 @@ class Handler
         $file = substr($err->getFile(), ( strlen(ROOT_PATH) + 1 ));
 
         // Create response.
-        $response = get_class($err) . PHP_EOL;
+        $response  = get_class($err) . PHP_EOL;
         $response .= self::infosToString([
             'code'    => $err->getCode(),
             'message' => $message,
             'called'  => '[on: ' . $file . ' #' . $err->getLine() . ']',
         ]);
 
-        // If this is NOT a deeper cause - show trace also.
-        // if ($deeperCause === false) {
-            $response .= self::tracesToString($err->getTrace());
-        // }
+        // Show trace.
+        $response .= self::tracesToString($err->getTrace());
 
         // Show previous.
         if (is_null($err->getPrevious()) === false) {

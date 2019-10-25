@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -17,7 +17,7 @@ class ClassWrotypeException extends Sexception
      * @param string         $context                 During what operation, what is the nature of the error.
      * @param string         $className               Full name of the class.
      * @param string         $parentClassNameExpected Full name of the class that className should be a parent of.
-     * @param Exception|null $cause                   Exception that caused the problem.
+     * @param Throwable|null $cause                   Throwable that caused the problem.
      *
      * @since v1.0
      */
@@ -28,7 +28,6 @@ class ClassWrotypeException extends Sexception
         ?Exception $cause = null
     ) {
 
-        $this->setCodeName('ClassWrotypeException');
         $this->addInfo('context', $context);
         $this->addInfo('className', $className);
         $this->addInfo('parentClassNameExpected', $parentClassNameExpected);

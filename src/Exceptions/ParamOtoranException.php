@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -17,7 +17,7 @@ class ParamOtoranException extends Sexception
      * @param string         $paramName   Name of the parameter with error.
      * @param string         $range       Possible values that can be given, eg. `5 - 12`.
      * @param string         $actualValue Actually given value.
-     * @param Exception|null $cause       Exception that caused the problem.
+     * @param Throwable|null $cause       Throwable that caused the problem.
      *
      * @since v1.0
      */
@@ -28,7 +28,6 @@ class ParamOtoranException extends Sexception
         ?Exception $cause = null
     ) {
 
-        $this->setCodeName('ParamOtoranException');
         $this->addInfo('paramName', $paramName);
         $this->addInfo('range', $range);
         $this->addInfo('actualValue', $actualValue);

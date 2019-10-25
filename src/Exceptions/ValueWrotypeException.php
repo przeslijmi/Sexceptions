@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -17,11 +17,11 @@ class ValueWrotypeException extends Sexception
      * @param string         $valueName    Name of the value with error.
      * @param string         $typeExpected Name of the expected type (eg. string, string[]).
      * @param string         $actualType   Actually given type.
-     * @param Exception|null $cause        Exception that caused the problem.
+     * @param Throwable|null $cause        Throwable that caused the problem.
      *
      * @since v1.2
      */
-    public function __construct(string $valueName, string $typeExpected, string $actualType, ?Exception $cause = null)
+    public function __construct(string $valueName, string $typeExpected, string $actualType, ?Throwable $cause = null)
     {
 
         $this->addInfo('valueName', $valueName);

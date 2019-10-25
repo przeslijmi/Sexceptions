@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -15,14 +15,13 @@ class ObjectDonoexException extends Sexception
      * Constructor.
      *
      * @param string         $context What object is missing.
-     * @param Exception|null $cause   Exception that caused the problem.
+     * @param Throwable|null $cause   Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $context, ?Exception $cause = null)
+    public function __construct(string $context, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('ObjectDonoexException');
         $this->addInfo('context', $context);
 
         if (is_null($cause) === false) {

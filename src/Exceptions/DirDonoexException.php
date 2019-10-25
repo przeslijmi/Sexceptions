@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -16,14 +16,13 @@ class DirDonoexException extends Sexception
      *
      * @param string         $context During what operation, what is the nature of the error.
      * @param string         $dirName Name of the file.
-     * @param Exception|null $cause   Exception that caused the problem.
+     * @param Throwable|null $cause   Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $context, string $dirName, ?Exception $cause = null)
+    public function __construct(string $context, string $dirName, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('DirDonoexException');
         $this->addInfo('context', $context);
         $this->addInfo('dirName', $dirName);
 

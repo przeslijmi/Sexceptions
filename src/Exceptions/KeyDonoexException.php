@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -17,14 +17,13 @@ class KeyDonoexException extends Sexception
      * @param string         $context   During what operation, what is the nature of the error.
      * @param array          $range     Existing keys.
      * @param string         $actualKey Actually given key.
-     * @param Exception|null $cause     Exception that caused the problem.
+     * @param Throwable|null $cause     Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $context, array $range, string $actualKey, ?Exception $cause = null)
+    public function __construct(string $context, array $range, string $actualKey, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('KeyDonoexException');
         $this->addInfo('context', $context);
         if (count($range) > 0) {
             $this->addInfo('range', implode(', ', $range));

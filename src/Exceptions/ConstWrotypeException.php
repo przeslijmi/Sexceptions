@@ -2,7 +2,7 @@
 
 namespace Przeslijmi\Sexceptions\Exceptions;
 
-use Exception;
+use Throwable;
 use Przeslijmi\Sexceptions\Sexception;
 
 /**
@@ -17,14 +17,13 @@ class ConstWrotypeException extends Sexception
      * @param string         $constName    Name of the constant with error.
      * @param string         $typeExpected Name of the expected type (eg. string, string[]).
      * @param string         $actualType   Actually given type.
-     * @param Exception|null $cause        Exception that caused the problem.
+     * @param Throwable|null $cause        Throwable that caused the problem.
      *
      * @since v1.0
      */
-    public function __construct(string $constName, string $typeExpected, string $actualType, ?Exception $cause = null)
+    public function __construct(string $constName, string $typeExpected, string $actualType, ?Throwable $cause = null)
     {
 
-        $this->setCodeName('ConstWrotypeException');
         $this->addInfo('constName', $constName);
         $this->addInfo('typeExpected', $typeExpected);
         $this->addInfo('actualType', $actualType);

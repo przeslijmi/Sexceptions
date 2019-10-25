@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.0 - 2019-10-23
+
+- Changed all exceptions to accept Throwables instead of just Exception.
+
 ## v1.3.0 - 2019-10-21
 
 - Added `LoopOtoranException`.
