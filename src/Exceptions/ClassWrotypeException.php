@@ -25,7 +25,7 @@ class ClassWrotypeException extends Sexception
         string $context,
         string $className,
         string $parentClassNameExpected,
-        ?Exception $cause = null
+        ?Throwable $cause = null
     ) {
 
         $this->addInfo('context', $context);

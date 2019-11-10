@@ -25,7 +25,7 @@ class ParamOtoranException extends Sexception
         string $paramName,
         string $range,
         string $actualValue,
-        ?Exception $cause = null
+        ?Throwable $cause = null
     ) {
 
         $this->addInfo('paramName', $paramName);
