@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.5.0 - 2019-12-23
+
+- Added `ValueWrosynException`.
+= Added more tests (66.00%).
+
+## v1.4.1 - 2019-11-10
+
+- Added `build.sh.dist`.
+- Added `phpcs.xml`.
+- Added `phpunit.xml` to be more complete.
+- Changed `composer.json`.
+
 ## v1.4.0 - 2019-10-23
 
 - Changed all exceptions to accept Throwables instead of just Exception.

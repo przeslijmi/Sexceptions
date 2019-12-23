@@ -38,6 +38,7 @@ final class SexceptionTest extends TestCase
             [ 'KeyAlrexException', [ 'context', 'key' ] ],
             [ 'KeyDonoexException', [ 'context', [ 'key1', 'key2', 'key3' ], 'key4' ] ],
             [ 'KeyDonoexException', [ 'context', [ ], 'key4' ] ],
+            [ 'LoopOtoranException', [ 'context', 5 ] ],
             [ 'MethodDonoexException', [ 'context', 'class', 'method' ] ],
             [ 'MethodFopException', [ 'context' ] ],
             [ 'ObjectDonoexException', [ 'context' ] ],
@@ -49,15 +50,22 @@ final class SexceptionTest extends TestCase
             [ 'PointerWrosynException', [ 'context' ] ],
             [ 'PropertyIsEmptyException', [ 'name' ] ],
             [ 'RegexTestFailException', [ 'value', 'regex' ] ],
+            [ 'TemporaryException', [ 'context' ] ],
             [ 'TypeHintingFailException', [ 'shouldBe', 'isInFact' ] ],
             [ 'ValueOtosetException', [ 'name', [ 'val1', 'val2', 'val3' ], 'val4' ] ],
             [ 'ValueOtosetException', [ 'name', [], 'val4' ] ],
+            [ 'ValueWrosynException', [ 'context', 'value' ] ],
+            [ 'ValueWrotypeException', [ 'context', 'typeExpected', 'typeActual' ] ],
         ];
     }
 
     /**
      * Test if throwing all exceptions works.
      *
+     * @param string   $exceptionName Name of exception.
+     * @param string[] $parameters    Array of parameters for exception.
+     *
+     * @throws Exception To test.
      * @return void
      *
      * @dataProvider classesDataProvider
@@ -90,7 +98,11 @@ final class SexceptionTest extends TestCase
     /**
      * Test if every way of adding infos to exception works.
      *
+     * @throws Exception To test.
      * @return void
+     *
+     * @phpcs:disable Generic.PHP.NoSilencedErrors
+     * @phpcs:disable Squiz.Commenting.PostStatementComment
      */
     public function testAddingInfos() : void
     {
@@ -99,27 +111,51 @@ final class SexceptionTest extends TestCase
         $this->expectException(ClassDonoexException::class);
 
         // Make silenced error.
-        $nothing = @(5/0);
+        $nothing = @( 5 / 0 );
 
         // Make cause.
         $cause = new Exception('cause');
 
         // Throw.
-        $exception = (new ClassDonoexException('context', 'class'))
+        $exception = ( new ClassDonoexException('context', 'class') )
             ->addInfo('keyOfInfo1', 'valueOfInfo')
             ->addInfo('keyOfInfo2')
             ->addInfos()
             ->addInfos([
                 'keyOfInfo3' => new stdClass(),
                 'keyOfInfo4' => null,
-                'keyOfInfo5' => (boolean) false,
+                'keyOfInfo5' => (bool) false,
                 'keyOfInfo6' => (int) 5,
-                'keyOfInfo7' => ( new class { public function toString() { return 'test'; } }),
+                'keyOfInfo7' => ( new class {
+
+                    /**
+                     * Convert this Sexception to string.
+                     *
+                     * @return string
+                     */
+                    public function toString() : string
+                    {
+
+                        return 'test';
+                    }
+                } ),
             ], 'prefix')
-            ->addObjectInfos(new class { public function getExceptionInfos() { return [
-                'subInfo1' => '1',
-                'subInfo2' => '2',
-            ]; } })
+            ->addObjectInfos(new class {
+
+                /**
+                 * Used by Sexceptions to introduce this object when it causes exceptions.
+                 *
+                 * @since  v1.0
+                 * @return array
+                 */
+                public function getExceptionInfos()
+                {
+                    return [
+                        'subInfo1' => '1',
+                        'subInfo2' => '2',
+                    ];
+                }
+            })
             ->addWarning()
             ->setCause($cause);
 
