@@ -17,8 +17,6 @@ class ConstDonoexException extends Sexception
      * @param string         $context   During what operation, what is the nature of the error.
      * @param string         $constName Full name of the class.
      * @param Throwable|null $cause     Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $context, string $constName, ?Throwable $cause = null)
     {

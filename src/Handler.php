@@ -24,7 +24,6 @@ class Handler
      * @param Throwable $thr Throwable to handle.
      *
      * @return void
-     * @since  v1.0
      *
      * @phpcs:disable Squiz.PHP.DiscouragedFunctions
      */
@@ -77,7 +76,6 @@ class Handler
      * @param Throwable $thr Throwable to be showed.
      *
      * @return string
-     * @since  v2.0
      */
     private static function toString(Throwable $thr) : string
     {
@@ -98,7 +96,6 @@ class Handler
      * @param Sexception $sexc Sexception to be showed.
      *
      * @return string
-     * @since  v1.0
      */
     private static function sexceptionToString(Sexception $sexc) : string
     {
@@ -146,7 +143,6 @@ class Handler
      *
      * @param Exception $exc Exception to be showed.
      *
-     * @since  v2.0
      * @return string
      */
     private static function exceptionToString(Exception $exc) : string
@@ -172,7 +168,6 @@ class Handler
      *
      * @param Error $err Error to be showed.
      *
-     * @since  v2.0
      * @return string
      */
     private static function errorToString(Error $err) : string
@@ -216,7 +211,6 @@ class Handler
      *
      * @param array $infos Array with key (info name) and value (info contents).
      *
-     * @since  v2.0
      * @return string
      */
     private static function infosToString(array $infos) : string
@@ -252,7 +246,6 @@ class Handler
      *
      * @param array $traces Traces of Throwable.
      *
-     * @since  v2.0
      * @return string
      */
     private static function tracesToString(array $traces) : string

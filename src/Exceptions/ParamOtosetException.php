@@ -18,8 +18,6 @@ class ParamOtosetException extends Sexception
      * @param array          $range       Possible values that can be given.
      * @param string         $actualValue Actually given value.
      * @param Throwable|null $cause       Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(
         string $paramName,

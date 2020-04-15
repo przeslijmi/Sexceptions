@@ -18,8 +18,6 @@ class MethodDonoexException extends Sexception
      * @param string         $className  Full name of the class.
      * @param string         $methodName Full name of the method that should be existing.
      * @param Throwable|null $cause      Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $context, string $className, string $methodName, ?Throwable $cause = null)
     {

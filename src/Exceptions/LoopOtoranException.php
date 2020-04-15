@@ -17,8 +17,6 @@ class LoopOtoranException extends Sexception
      * @param string         $context  During what operation, what is the nature of the error.
      * @param integer        $maxRange Range that was reached.
      * @param Throwable|null $cause    Throwable that caused the problem.
-     *
-     * @since v1.2
      */
     public function __construct(string $context, int $maxRange, ?Throwable $cause = null)
     {

@@ -155,10 +155,9 @@ final class SexceptionTest extends TestCase
                 /**
                  * Used by Sexceptions to introduce this object when it causes exceptions.
                  *
-                 * @since  v1.0
                  * @return array
                  */
-                public function getExceptionInfos()
+                public function getExceptionInfos() : array
                 {
                     return [
                         'subInfo1' => '1',

@@ -14,16 +14,14 @@ class TypeHintingFailException extends Sexception
     /**
      * What type should be used.
      *
-     * @var   string
-     * @since v1.0
+     * @var string
      */
     private $shouldBe = '';
 
     /**
      * What is the real type of the value.
      *
-     * @var   string
-     * @since v1.0
+     * @var string
      */
     private $isInFact = '';
 
@@ -33,8 +31,6 @@ class TypeHintingFailException extends Sexception
      * @param string         $shouldBe What type should be used.
      * @param string         $isInFact What is the real type of the value.
      * @param Throwable|null $cause    Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $shouldBe, string $isInFact, ?Throwable $cause = null)
     {
@@ -54,7 +50,6 @@ class TypeHintingFailException extends Sexception
      * Getter for "should be".
      *
      * @return string
-     * @since  v1.0
      */
     public function getShouldBe() : string
     {
@@ -66,7 +61,6 @@ class TypeHintingFailException extends Sexception
      * Getter for "is in fact".
      *
      * @return string
-     * @since  v1.0
      */
     public function getIsInFact() : string
     {

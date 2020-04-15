@@ -18,8 +18,6 @@ class ConstWrotypeException extends Sexception
      * @param string         $typeExpected Name of the expected type (eg. string, string[]).
      * @param string         $actualType   Actually given type.
      * @param Throwable|null $cause        Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $constName, string $typeExpected, string $actualType, ?Throwable $cause = null)
     {

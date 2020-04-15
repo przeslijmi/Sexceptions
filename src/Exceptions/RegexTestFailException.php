@@ -17,8 +17,6 @@ class RegexTestFailException extends Sexception
      * @param string         $value Value that has been checked against regular expression.
      * @param string         $regex Contents of the regular expression.
      * @param Throwable|null $cause Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $value, string $regex, ?Throwable $cause = null)
     {

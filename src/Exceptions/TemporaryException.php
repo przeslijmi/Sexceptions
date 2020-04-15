@@ -17,8 +17,6 @@ class TemporaryException extends Sexception
      * @param string         $content  Contents of the exception.
      * @param string         $codeName Optional, class name. Code name if given to use.
      * @param Throwable|null $cause    Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $content, string $codeName = '', ?Throwable $cause = null)
     {

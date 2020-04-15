@@ -17,8 +17,6 @@ class DirDonoexException extends Sexception
      * @param string         $context During what operation, what is the nature of the error.
      * @param string         $dirName Name of the file.
      * @param Throwable|null $cause   Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $context, string $dirName, ?Throwable $cause = null)
     {

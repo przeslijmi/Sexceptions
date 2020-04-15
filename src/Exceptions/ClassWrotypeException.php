@@ -18,8 +18,6 @@ class ClassWrotypeException extends Sexception
      * @param string         $className               Full name of the class.
      * @param string         $parentClassNameExpected Full name of the class that className should be a parent of.
      * @param Throwable|null $cause                   Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(
         string $context,

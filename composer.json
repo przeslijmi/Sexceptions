@@ -10,12 +10,20 @@
       "email": "przeslijmi@gmail.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/przeslijmi/silogger"
+    }
+  ],
   "require": {
-    "php" : "^7.3"
+    "php" : "^7.3",
+    "przeslijmi/silogger": ">0"
   },
   "autoload": {
     "psr-4": {
-      "Przeslijmi\\Sexceptions\\": "src/"
+      "Przeslijmi\\Sexceptions\\": "src/",
+      "Przeslijmi\\Silogger\\": "vendor/przeslijmi/silogger/src/"
     }
   }
 }

@@ -18,8 +18,6 @@ class ValueWrotypeException extends Sexception
      * @param string         $typeExpected Name of the expected type (eg. string, string[]).
      * @param string         $actualType   Actually given type.
      * @param Throwable|null $cause        Throwable that caused the problem.
-     *
-     * @since v1.2
      */
     public function __construct(string $valueName, string $typeExpected, string $actualType, ?Throwable $cause = null)
     {

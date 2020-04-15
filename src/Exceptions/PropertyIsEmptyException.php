@@ -16,8 +16,6 @@ class PropertyIsEmptyException extends Sexception
      *
      * @param string         $propertyName Name of the property that is empty and should not be.
      * @param Throwable|null $cause        Throwable that caused the problem.
-     *
-     * @since v1.0
      */
     public function __construct(string $propertyName, ?Throwable $cause = null)
     {

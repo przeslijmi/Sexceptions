@@ -27,7 +27,7 @@ final class HandlerTest extends TestCase
 
 
         // Lvd.
-        $line      = 'TemporaryDeepException \[on sexceptions\\\\tests\\\\HandlerTest\.php \#';
+        $line      = 'TemporaryDeepException \[on ';
         $cause1    = new Exception('cause');
         $cause2    = new ClassDonoexException('context', 'class', $cause1);
         $exception = new TemporaryDeepException('anonymous', '', $cause2);
@@ -51,7 +51,7 @@ final class HandlerTest extends TestCase
     {
 
         // Lvd.
-        $line      = 'Exception \[on sexceptions\\\\tests\\\\HandlerTest\.php \#';
+        $line      = 'Exception \[on ';
         $exception = new Exception('message', 0, new Exception('message'));
 
         // Prepare.
