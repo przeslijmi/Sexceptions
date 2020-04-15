@@ -14,18 +14,24 @@ abstract class Sexception extends Exception
     /**
      * Name of the child class that called exception.
      *
-     * @var   string
-     * @since v1.0
+     * @var string
      */
     private $codeName = '';
 
     /**
+     * Standard exceptions message.
+     *
+     * @var string
+     */
+    protected $message = '';
+
+    /**
      * Pairs of (string)key <=> (string)value extra informations about the nature of exception.
      *
-     * @var   array
-     * @since v1.0
+     * @var array
      */
     private $infos = [];
+
 
     /**
      * Setter for code name.
@@ -33,7 +39,6 @@ abstract class Sexception extends Exception
      * @param string $codeName Code name.
      *
      * @return void
-     * @since  v1.0
      */
     protected function setCodeName(string $codeName) : void
     {
@@ -45,8 +50,6 @@ abstract class Sexception extends Exception
      * Getter for code name.
      *
      * @return string
-     * @since  v1.1 When no code name defined - class name (without namespace) is returned as default.
-     * @since  v1.0
      */
     public function getCodeName() : string
     {
@@ -66,7 +69,6 @@ abstract class Sexception extends Exception
      * @param string|null $infoValue Content of the information.
      *
      * @return self
-     * @since  v1.0
      */
     public function addInfo(string $infoKey, ?string $infoValue = null) : self
     {
@@ -76,7 +78,11 @@ abstract class Sexception extends Exception
             return $this;
         }
 
+        // Save info.
         $this->infos[$infoKey] = $infoValue;
+
+        // Update message.
+        $this->updateMessage();
 
         return $this;
     }
@@ -88,7 +94,6 @@ abstract class Sexception extends Exception
      * @param string|null $prefix Optional. If given all info keys will be prefixed with this prefix and a dot.
      *
      * @return self
-     * @since  v1.0
      */
     public function addInfos(?array $infos = null, ?string $prefix = null) : self
     {
@@ -141,14 +146,13 @@ abstract class Sexception extends Exception
                         $showValue = 'object (no toString method)';
                     }
                 break;
-
-                default:
-                    $showValue = 'unknown value type';
-                break;
             }//end switch
 
             $this->infos[( $prefix . $infoKey )] = $showValue;
         }//end foreach
+
+        // Update message.
+        $this->updateMessage();
 
         return $this;
     }
@@ -159,7 +163,6 @@ abstract class Sexception extends Exception
      * @param object $object Any object that serves `getExceptionInfos` public method.
      *
      * @return self
-     * @since  v1.0
      */
     public function addObjectInfos(object $object) : self
     {
@@ -178,13 +181,15 @@ abstract class Sexception extends Exception
      * @param string $hint Hint for exception.
      *
      * @return self
-     * @since  v1.0
      */
     public function addHint(string $hint) : self
     {
 
         // Save.
         $this->infos['hint'] = $hint;
+
+        // Update message.
+        $this->updateMessage();
 
         return $this;
     }
@@ -196,7 +201,6 @@ abstract class Sexception extends Exception
      * show detailes of this silenced warning.
      *
      * @return self
-     * @since  v1.0
      */
     public function addWarning() : self
     {
@@ -211,10 +215,40 @@ abstract class Sexception extends Exception
     }
 
     /**
+     * Compose standard exception message if handler is not Sexception class.
+     *
+     * @return self
+     */
+    private function updateMessage() : self
+    {
+
+        // Add hint to message.
+        if (isset($this->infos['hint']) === true) {
+            $this->message = ( "\e[0;31;40m" . $this->infos['hint'] . "\e[0m" ?? '' );
+        }
+
+        // Add other infos to message.
+        foreach ($this->infos as $key => $value) {
+
+            // Hint was already added before.
+            if ($key === 'hint') {
+                continue;
+            }
+
+            // Add every info.
+            $this->message .= PHP_EOL . "  \e[1;33;40m{{" . $key . "}}\e[0m :: " . $value;
+        }
+
+        // Trim message.
+        $this->message = trim($this->message);
+
+        return $this;
+    }
+
+    /**
      * Getter for all infos.
      *
      * @return array
-     * @since  v1.0
      */
     public function getInfos() : array
     {
@@ -228,7 +262,6 @@ abstract class Sexception extends Exception
      * @param Throwable $throwable Throwable that caused current Throwabel.
      *
      * @return self
-     * @since  v1.0
      */
     public function setCause(Throwable $throwable) : self
     {
@@ -241,7 +274,6 @@ abstract class Sexception extends Exception
     /**
      * Getter for cause of this Throwable (if present);
      *
-     * @since  v1.0
      * @return null|Throwable
      */
     public function getCause() : ?Throwable
@@ -256,10 +288,9 @@ abstract class Sexception extends Exception
      * @param string         $className What Sexception class to look in causes.
      * @param Exception|null $deeper    Ignore. Just to loop in.
      *
-     * @since  v1.0
-     * @return null|Sexception Sexception of given class or null.
+     * @return null|Exception Exception of given class or null.
      */
-    public function hasInCauses(string $className, ?Exception $deeper = null) : ?Sexception
+    public function hasInCauses(string $className, ?Exception $deeper = null) : ?Exception
     {
 
         // Lvd.
@@ -269,10 +300,10 @@ abstract class Sexception extends Exception
             $analize = $this->getPrevious();
         }
 
-        // Short way - if this is null or not an Sexception.
-        if ($analize === null || is_a($analize, 'Przeslijmi\Sexceptions\Sexception') === false) {
+        // Short way - if this is null or not an Exception.
+        if ($analize === null || is_a($analize, 'Exception') === false) {
             return null;
-        }
+        };
 
         // There is!
         if (get_class($analize) === $className) {

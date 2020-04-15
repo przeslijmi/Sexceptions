@@ -1,7 +1,7 @@
 {
   "name": "przeslijmi/sexceptions",
   "description": "PHP library for Exceptions serving.",
-  "version": "v1.5.0",
+  "version": "v1.5.1",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -11,8 +11,7 @@
     }
   ],
   "require": {
-    "php" : "^7.3",
-    "przeslijmi/sexceptions": "~1.0"
+    "php" : "^7.3"
   },
   "autoload": {
     "psr-4": {

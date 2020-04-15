@@ -1,13 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Przeslijmi\SiHDD;
+namespace Przeslijmi\Sexceptions;
 
-use stdClass;
 use Exception;
-use RuntimeException;
 use PHPUnit\Framework\TestCase;
 use Przeslijmi\Sexceptions\Exceptions\ClassDonoexException;
-use Przeslijmi\Sexceptions\Handler;
+use Przeslijmi\Sexceptions\Exceptions\TemporaryException;
+use stdClass;
 
 /**
  * Methods for testing File class.
@@ -50,7 +49,7 @@ final class SexceptionTest extends TestCase
             [ 'PointerWrosynException', [ 'context' ] ],
             [ 'PropertyIsEmptyException', [ 'name' ] ],
             [ 'RegexTestFailException', [ 'value', 'regex' ] ],
-            [ 'TemporaryException', [ 'context' ] ],
+            [ 'TemporaryException', [ 'context', 'codeNameToTest' ] ],
             [ 'TypeHintingFailException', [ 'shouldBe', 'isInFact' ] ],
             [ 'ValueOtosetException', [ 'name', [ 'val1', 'val2', 'val3' ], 'val4' ] ],
             [ 'ValueOtosetException', [ 'name', [], 'val4' ] ],
@@ -74,7 +73,8 @@ final class SexceptionTest extends TestCase
     {
 
         // Lvd.
-        $cause             = new Exception('testCauseException');
+        $causeDeeper       = new Exception('testCauseException');
+        $cause             = new TemporaryException('test', '', $causeDeeper);
         $fullExceptionName = 'Przeslijmi\Sexceptions\Exceptions\\' . $exceptionName;
 
         // Add $cause to every call.
@@ -91,6 +91,16 @@ final class SexceptionTest extends TestCase
             $this->assertEquals($parameters[0], $exception->getShouldBe());
             $this->assertEquals($parameters[1], $exception->getIsInFact());
         }
+
+        // Extra test for TemporaryException.
+        if ($exceptionName === 'TemporaryException') {
+            $this->assertEquals($parameters[1], $exception->getCodeName());
+        }
+
+        // Test causes.
+        $this->assertEquals($cause, $exception->getCause());
+        $this->assertEquals($causeDeeper, $exception->hasInCauses(Exception::class));
+        $this->assertEquals(null, $exception->hasInCauses(ClassDonoexException::class));
 
         throw $exception;
     }

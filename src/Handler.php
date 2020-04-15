@@ -36,6 +36,7 @@ class Handler
 
         if (CALL_TYPE === 'client') {
 
+            // @codeCoverageIgnoreStart
             // Get response.
             $response .= self::toString($thr);
             $json      = json_encode(
@@ -51,6 +52,7 @@ class Handler
             // Call echo.
             echo $json;
 
+            // @codeCoverageIgnoreEnd
         } else {
 
             // Get response.
@@ -108,6 +110,7 @@ class Handler
 
         // Show parents.
         $parents = class_parents($sexc);
+
         if (count($parents) >= 3) {
 
             // Ignore Exception and Sexception classes.
@@ -262,10 +265,12 @@ class Handler
         // Draw traces.
         foreach ($traces as $trace) {
 
+            // @codeCoverageIgnoreStart
             if (empty($trace['file']) === true) {
                 continue;
             }
 
+            // @codeCoverageIgnoreEnd
             if ($headerGiven === false) {
                 $headerGiven = true;
                 $response   .= '    traces: ';

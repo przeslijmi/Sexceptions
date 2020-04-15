@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.5.1 - 2020-04-15
+
+- Added `shippable.yml`.
+- Added badges.
+- Updated `composer.json`.
+- Deleted `build.sh` and `build.sh.dist`.
+
 ## v1.5.0 - 2019-12-23
 
 - Added `ValueWrosynException`.
