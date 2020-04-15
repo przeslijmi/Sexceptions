@@ -25,7 +25,6 @@ final class HandlerTest extends TestCase
     public function testIfHandlingSexceptionsWorks() : void
     {
 
-
         // Lvd.
         $line      = 'TemporaryDeepException \[on ';
         $cause1    = new Exception('cause');
