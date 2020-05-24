@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.0 - 2020-05-24
+
+- Added `README.md`.
+- Added functionality for `short sexceptions` (see README.md).
+- Added hint for Given value has failed to meet given regex.
+- **Important!** All specific Exeptions are depreciated and will be deleted with `v2.0.0` (ie. the next major update).
+
 ## v1.5.1 - 2020-04-15
 
 - Added `shippable.yml`.

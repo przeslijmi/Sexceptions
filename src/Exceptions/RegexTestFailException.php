@@ -23,7 +23,7 @@ class RegexTestFailException extends Sexception
 
         $this->addInfo('value', $value);
         $this->addInfo('regex', $regex);
-        $this->addHint('See RegEx above!');
+        $this->addHint('Given value has failed to meet given regex.');
 
         if (is_null($cause) === false) {
             parent::__construct($this->getCodeName(), 0, $cause);

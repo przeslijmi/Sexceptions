@@ -32,6 +32,39 @@ abstract class Sexception extends Exception
      */
     private $infos = [];
 
+    /**
+     * Constructor.
+     *
+     * @param string|array   $infos Infos for exception to be used.
+     * @param integer        $code  Integer code of the error.
+     * @param null|Throwable $cause Optional, null. Cause as Throwable.
+     */
+    public function __construct($infos, int $code = 0, ?Throwable $cause = null)
+    {
+
+        // If message is given - add it.
+        if (is_string($infos) === true) {
+            $message = $infos;
+        }
+
+        // Create parent.
+        parent::__construct(( $message ?? '' ), $code, $cause);
+
+        // Add infos.
+        if (is_array($infos) === true) {
+
+            // Pad two keys length - if not all infos are given.
+            $infos = array_pad($infos, count($this->keys), '! info not given !');
+
+            // Match infos with keys.
+            $this->addInfos(array_combine($this->keys, $infos));
+        }
+
+        // If there is hint given - add it.
+        if (isset($this->hint) === true) {
+            $this->addHint($this->hint);
+        }
+    }
 
     /**
      * Setter for code name.
@@ -94,6 +127,8 @@ abstract class Sexception extends Exception
      * @param string|null $prefix Optional. If given all info keys will be prefixed with this prefix and a dot.
      *
      * @return self
+     *
+     * @phpcs:disable Generic.Metrics.CyclomaticComplexity
      */
     public function addInfos(?array $infos = null, ?string $prefix = null) : self
     {
@@ -114,7 +149,7 @@ abstract class Sexception extends Exception
             $infoValueDict = [
                 'resource' => 'nonScalarNonObject',
                 'NULL' => 'nonScalarNonObject',
-                'array' => 'nonScalarNonObject',
+                'array' => 'array',
                 'unknown type' => 'unknown',
                 'resource (closed)' => 'nonScalarNonObject',
                 'boolean' => 'boolean',
@@ -129,6 +164,14 @@ abstract class Sexception extends Exception
 
                 case 'nonScalarNonObject':
                     $showValue = $infoValueType;
+                break;
+
+                case 'array':
+                    if (count($infoValue) === count($infoValue, COUNT_RECURSIVE)) {
+                        $showValue = implode(', ', $infoValue);
+                    } else {
+                        $showValue = var_export($infoValue, true);
+                    }
                 break;
 
                 case 'boolean':

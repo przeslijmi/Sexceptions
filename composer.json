@@ -1,7 +1,7 @@
 {
   "name": "przeslijmi/sexceptions",
   "description": "PHP library for Exceptions serving.",
-  "version": "v1.5.1",
+  "version": "v1.6.0",
   "type": "library",
   "license": "MIT",
   "authors": [

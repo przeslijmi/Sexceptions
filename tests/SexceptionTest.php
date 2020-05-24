@@ -6,6 +6,7 @@ use Exception;
 use PHPUnit\Framework\TestCase;
 use Przeslijmi\Sexceptions\Exceptions\ClassDonoexException;
 use Przeslijmi\Sexceptions\Exceptions\TemporaryException;
+use Przeslijmi\Sexceptions\Sexception;
 use stdClass;
 
 /**
@@ -187,5 +188,90 @@ final class SexceptionTest extends TestCase
         $this->assertEquals($infosExpected, $exception->getInfos());
 
         throw $exception;
+    }
+
+    /**
+     * Test if using shortest exception without array or hint works.
+     *
+     * @throws Sexception To test.
+     * @return void
+     */
+    public function testIfShortExceptionWithStringWorks() : void
+    {
+
+        // Lvd.
+        $contents = 'contents';
+        $errorId  = 100;
+
+        // Try.
+        try {
+
+            throw new class($contents, $errorId) extends Sexception
+            {
+
+                /**
+                 * Keys for extra data array.
+                 *
+                 * @var array
+                 */
+                protected $keys = [ 'info' ];
+            };
+
+        } catch (Sexception $exc) {
+
+            // Test.
+            $this->assertEquals($errorId, $exc->getCode());
+            $this->assertEquals($contents, $exc->getMessage());
+        }//end try
+    }
+
+    /**
+     * Test if using short exception with array as contents works.
+     *
+     * @throws Sexception To test.
+     * @return void
+     */
+    public function testIfShortExceptionWithArrayWorks() : void
+    {
+
+        // Lvd.
+        $contents = [
+            'contentsA',
+            [ 'contentsB1', 'contentsB2' ],
+            [ 'contentsC1', 'contentsC2', [ 'contentsC3A', 'contentsC3B' ] ],
+        ];
+        $errorId  = 100;
+
+        // Try.
+        try {
+
+            // Create anonymous class.
+            throw new class($contents, $errorId) extends Sexception
+            {
+
+                /**
+                 * Hint.
+                 *
+                 * @var string
+                 */
+                protected $hint = 'Test hint.';
+
+                /**
+                 * Keys for extra data array.
+                 *
+                 * @var array
+                 */
+                protected $keys = [ 'infoA', 'infoB', 'infoC', 'infoD' ];
+            };
+
+        } catch (Sexception $exc) {
+
+            // Test.
+            $this->assertEquals($errorId, $exc->getCode());
+            $this->assertIsInt(strpos($exc->getMessage(), 'Test hint.'));
+            $this->assertIsInt(strpos($exc->getMessage(), $contents[0]));
+            $this->assertIsInt(strpos($exc->getMessage(), $contents[1][0]));
+            $this->assertIsInt(strpos($exc->getMessage(), '! info not given !'));
+        }//end try
     }
 }
