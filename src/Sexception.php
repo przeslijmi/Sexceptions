@@ -33,6 +33,13 @@ abstract class Sexception extends Exception
     private $infos = [];
 
     /**
+     * If set to true add warning will be sent. It is changed by child classes.
+     *
+     * @var boolean
+     */
+    protected $addWarning = false;
+
+    /**
      * Constructor.
      *
      * @param string|array   $infos Infos for exception to be used.
@@ -63,6 +70,11 @@ abstract class Sexception extends Exception
         // If there is hint given - add it.
         if (isset($this->hint) === true) {
             $this->addHint($this->hint);
+        }
+
+        // Add warning.
+        if (isset($this->addWarning) === true && $this->addWarning === true) {
+            $this->addWarning();
         }
     }
 
@@ -252,7 +264,9 @@ abstract class Sexception extends Exception
         $last = error_get_last();
 
         // Add info about warning.
-        $this->addInfo('warning', ( $last['message'] ?? '' ));
+        if (empty($last['message']) === false) {
+            $this->addInfo('warning', ( $last['message'] ?? '' ));
+        }
 
         return $this;
     }
@@ -326,14 +340,14 @@ abstract class Sexception extends Exception
     }
 
     /**
-     * Return exception from causes of this Sexception that has given cause class.
+     * Return exception from causes of this Exception that has given cause class.
      *
-     * @param string         $className What Sexception class to look in causes.
+     * @param string         $className What Exception class to look in causes.
      * @param Exception|null $deeper    Ignore. Just to loop in.
      *
      * @return null|Exception Exception of given class or null.
      */
-    public function hasInCauses(string $className, ?Exception $deeper = null) : ?Exception
+    public function findInCauses(string $className, ?Exception $deeper = null) : ?Exception
     {
 
         // Lvd.
@@ -353,6 +367,19 @@ abstract class Sexception extends Exception
             return $analize;
         }
 
-        return $this->hasInCauses($className, $analize);
+        return $this->findInCauses($className, $analize);
+    }
+
+    /**
+     * Return true if given exception class is found in causes of this exception.
+     *
+     * @param string $className What Exception class to look in causes.
+     *
+     * @return boolean
+     */
+    public function hasInCauses(string $className) : bool
+    {
+
+        return (bool) $this->findInCauses($className);
     }
 }

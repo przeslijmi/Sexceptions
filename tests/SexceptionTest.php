@@ -100,8 +100,10 @@ final class SexceptionTest extends TestCase
 
         // Test causes.
         $this->assertEquals($cause, $exception->getCause());
-        $this->assertEquals($causeDeeper, $exception->hasInCauses(Exception::class));
-        $this->assertEquals(null, $exception->hasInCauses(ClassDonoexException::class));
+        $this->assertEquals($causeDeeper, $exception->findInCauses(Exception::class));
+        $this->assertEquals(null, $exception->findInCauses(ClassDonoexException::class));
+        $this->assertTrue($exception->hasInCauses(Exception::class));
+        $this->assertFalse($exception->hasInCauses(ClassDonoexException::class));
 
         throw $exception;
     }
@@ -262,16 +264,25 @@ final class SexceptionTest extends TestCase
                  * @var array
                  */
                 protected $keys = [ 'infoA', 'infoB', 'infoC', 'infoD' ];
+
+                /**
+                 * To add warning.
+                 *
+                 * @var boolean
+                 */
+                protected $addWarning = true;
             };
 
-        } catch (Sexception $exc) {
+        } catch (Sexception $sexc) {
 
             // Test.
-            $this->assertEquals($errorId, $exc->getCode());
-            $this->assertIsInt(strpos($exc->getMessage(), 'Test hint.'));
-            $this->assertIsInt(strpos($exc->getMessage(), $contents[0]));
-            $this->assertIsInt(strpos($exc->getMessage(), $contents[1][0]));
-            $this->assertIsInt(strpos($exc->getMessage(), '! info not given !'));
+            $this->assertEquals($errorId, $sexc->getCode());
+            $this->assertIsInt(strpos($sexc->getMessage(), 'Test hint.'));
+            $this->assertIsInt(strpos($sexc->getMessage(), $contents[0]));
+            $this->assertIsInt(strpos($sexc->getMessage(), $contents[1][0]));
+            $this->assertIsInt(strpos($sexc->getMessage(), '! info not given !'));
+            $this->assertIsInt(strpos($sexc->getMessage(), 'warning'));
+            $this->assertTrue(isset($sexc->getInfos()['warning']));
         }//end try
     }
 }

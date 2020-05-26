@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.1 - 2020-05-26
+
+- Restored `addWarning` functionality for `short exceptions`.
+
 ## v1.6.0 - 2020-05-24
 
 - Added `README.md`.

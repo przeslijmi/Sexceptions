@@ -42,6 +42,19 @@ You can give as long hint as you want - it will be used to prepare final error m
 
 In `keys` you define what `keys of infos` that will be send along with throwing exception (for eg. record ID from database, used value, etc.).
 
+#### Add warning
+
+Some Exceptions can be used to serve warnings. If you want to have warning message included as information inside your exception add next method to `Sexception`.
+
+```php
+/**
+ * To add warning.
+ *
+ * @var boolean
+ */
+protected $addWarning = true;
+```
+
 ### Step 2 - throwing exception
 
 ```php
