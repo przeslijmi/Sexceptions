@@ -40,6 +40,20 @@ abstract class Sexception extends Exception
     protected $addWarning = false;
 
     /**
+     * Hint - defined in child.
+     *
+     * @var string
+     */
+    protected $hint = '';
+
+    /**
+     * Keys for extra data array - defined in child.
+     *
+     * @var array
+     */
+    protected $keys = [];
+
+    /**
      * Constructor.
      *
      * @param string|array   $infos Infos for exception to be used.
@@ -68,7 +82,7 @@ abstract class Sexception extends Exception
         }
 
         // If there is hint given - add it.
-        if (isset($this->hint) === true) {
+        if (empty($this->hint) === false) {
             $this->addHint($this->hint);
         }
 

@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use Przeslijmi\Sexceptions\Exceptions\ValueOtosetException;
-]]></content>
-	<tabTrigger>useValOts</tabTrigger>
-	<scope>source.php</scope>
-</snippet>

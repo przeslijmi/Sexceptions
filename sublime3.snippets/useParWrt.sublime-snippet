@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use Przeslijmi\Sexceptions\Exceptions\ParamWrotypeException;
-]]></content>
-	<tabTrigger>useParWrt</tabTrigger>
-	<scope>source.php</scope>
-</snippet>

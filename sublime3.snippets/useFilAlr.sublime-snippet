@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use Przeslijmi\Sexceptions\Exceptions\FileAlrexException;
-]]></content>
-	<tabTrigger>useFilAlr</tabTrigger>
-	<scope>source.php</scope>
-</snippet>

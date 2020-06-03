@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.6.2 - 2020-06-03
+
+- Deleted snippets.
+- Added default (empty) values for `hint` and `keys` in `Sexception`.
+
 ## v1.6.1 - 2020-05-26
 
 - Restored `addWarning` functionality for `short exceptions`.

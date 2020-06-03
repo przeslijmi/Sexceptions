@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use Przeslijmi\Sexceptions\Exceptions\ConstDonoexException;
-]]></content>
-	<tabTrigger>useConDon</tabTrigger>
-	<scope>source.php</scope>
-</snippet>

@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use Przeslijmi\Sexceptions\Exceptions\RegexTestFailException;
-]]></content>
-	<tabTrigger>useRegFai</tabTrigger>
-	<scope>source.php</scope>
-</snippet>

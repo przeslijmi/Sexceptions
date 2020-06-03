@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use Przeslijmi\Sexceptions\Exceptions\ClassWrotypeException;
-]]></content>
-	<tabTrigger>useClaWrt</tabTrigger>
-	<scope>source.php</scope>
-</snippet>

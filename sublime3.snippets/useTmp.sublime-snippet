@@ -1,7 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use Przeslijmi\Sexceptions\Exceptions\TemporaryException;
-]]></content>
-	<tabTrigger>useTmp</tabTrigger>
-	<scope>source.php</scope>
-</snippet>
