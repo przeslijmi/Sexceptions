@@ -285,4 +285,42 @@ final class SexceptionTest extends TestCase
             $this->assertTrue(isset($sexc->getInfos()['warning']));
         }//end try
     }
+
+    /**
+     * Test if using superflous infos works.
+     *
+     * @throws Sexception To test.
+     * @return void
+     */
+    public function testIfUsingSuperflousInfosWorks() : void
+    {
+
+        // Lvd.
+        $contents = [
+            'superflous info 1',
+            'superflous info 2',
+        ];
+
+        // Try.
+        try {
+
+            // Create anonymous class.
+            throw new class($contents) extends Sexception
+            {
+
+                /**
+                 * Hint.
+                 *
+                 * @var string
+                 */
+                protected $hint = 'Test hint.';
+            };
+
+        } catch (Sexception $sexc) {
+
+            // Test.
+            $this->assertEquals($contents[0], $sexc->getInfos()['! superflous key 1 !']);
+            $this->assertEquals($contents[1], $sexc->getInfos()['! superflous key 2 !']);
+        }//end try
+    }
 }

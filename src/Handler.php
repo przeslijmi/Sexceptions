@@ -248,7 +248,7 @@ class Handler
      *
      * @return string
      */
-    private static function tracesToString(array $traces) : string
+    public static function tracesToString(array $traces) : string
     {
 
         // Lvd.

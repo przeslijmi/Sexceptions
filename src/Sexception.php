@@ -3,6 +3,8 @@
 namespace Przeslijmi\Sexceptions;
 
 use Exception;
+use Przeslijmi\Sexceptions\Handler;
+use Przeslijmi\Silogger\Log;
 use Throwable;
 
 /**
@@ -60,7 +62,7 @@ abstract class Sexception extends Exception
      * @param integer        $code  Integer code of the error.
      * @param null|Throwable $cause Optional, null. Cause as Throwable.
      */
-    public function __construct($infos, int $code = 0, ?Throwable $cause = null)
+    public function __construct($infos = [], int $code = 0, ?Throwable $cause = null)
     {
 
         // If message is given - add it.
@@ -74,12 +76,30 @@ abstract class Sexception extends Exception
         // Add infos.
         if (is_array($infos) === true) {
 
-            // Pad two keys length - if not all infos are given.
+            // Pad infos array - if not all infos are given.
             $infos = array_pad($infos, count($this->keys), '! info not given !');
+
+            // Pad keys array - if there are superflous keys - send warning also.
+            if (count($this->keys) < count($infos)) {
+
+                // Lvd.
+                $traces   = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 1);
+                $traces   = trim(Handler::tracesToString($traces));
+                $warning  = 'Superflous key had to be added for `' . get_class($this) . '`';
+                $warning .= ' after usage which ' . $traces . '.';
+
+                // Call warning.
+                Log::get()->warning($warning);
+
+                // Add superflous keys for superflous infos.
+                for ($i = 0; $i <= ( count($infos) - count($this->keys) ); ++$i) {
+                    $this->keys[] = '! superflous key ' . ( $i + 1 ) . ' !';
+                }
+            }
 
             // Match infos with keys.
             $this->addInfos(array_combine($this->keys, $infos));
-        }
+        }//end if
 
         // If there is hint given - add it.
         if (empty($this->hint) === false) {
@@ -266,7 +286,7 @@ abstract class Sexception extends Exception
     /**
      * Showing warning when it was silenced.
      *
-     * Warning has been silnced and now exception is thrown - so it is needed to
+     * Warning has been silenced and now exception is thrown - so it is needed to
      * show detailes of this silenced warning.
      *
      * @return self
