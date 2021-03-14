@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.8.0.rs1 - 2021-03-14
+
+
 ## v1.7.0 - 2020-06-17
 
 - Change: Superflous infos are now accepted but warning is fired.

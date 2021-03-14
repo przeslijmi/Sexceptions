@@ -110,6 +110,33 @@ abstract class Sexception extends Exception
         if (isset($this->addWarning) === true && $this->addWarning === true) {
             $this->addWarning();
         }
+
+        // Call additional log if needed.
+        if (isset($this->log) === true && is_array($this->log) === true && count($this->log) === 3) {
+
+            // Define message.
+            $logMessage = (string) $this->log[2];
+            foreach ($this->infos as $infoKey => $infoValue) {
+                $logMessage = str_replace('<' . $infoKey . '>', $infoValue, $logMessage);
+            }
+
+            // Call log.
+            Log::get((string) $this->log[0])->log((string) $this->log[1], $logMessage);
+        }
+
+        if (isset($this->logLocale) === true && is_array($this->logLocale) === true && count($this->logLocale) === 2) {
+
+            $class = explode('\\', get_class($this));
+
+            // Call log.
+            Log::get((string) $this->logLocale[0])->localeLog(
+                (string) $this->logLocale[1],
+                $class[0] . '\\' . $class[1],
+                array_pop($class),
+                array_combine($this->keys, $infos),
+                [ $this ]
+            );
+        }
     }
 
     /**
