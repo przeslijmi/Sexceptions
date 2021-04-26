@@ -40,7 +40,8 @@ class Handler
             $response .= self::toString($thr);
             $json      = json_encode(
                 [
-                    'errorReport' => explode(PHP_EOL, $response),
+                    'status' => 'error',
+                    'error' => explode(PHP_EOL, $response),
                 ]
             );
 
